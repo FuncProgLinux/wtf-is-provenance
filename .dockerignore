@@ -1,0 +1,7 @@
+app
+*.md
+.git
+.github
+manifest.scm
+.gitignore
+.dockerignore

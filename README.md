@@ -5,4 +5,3 @@ publicado en https://urutau-ltd.org/
 
 Sirve únicamente como ejemplo. No recomiendo clonarlo o bifurcarlo para tus
 propios proyectos.
-
