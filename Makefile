@@ -8,3 +8,6 @@ run:
 
 image:
 	docker build -t ghcr.io/funcproglinux/tinyapi:latest .
+
+env:
+	guix shell -m ./manifest.scm
