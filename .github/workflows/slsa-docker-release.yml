@@ -22,6 +22,7 @@ jobs:
         outputs:
             image_path: ${{ steps.image-meta.outputs.image_path }}
             digest: ${{ steps.push-to-ghcr.outputs.digest }}
+            registry_username: ${{ steps.image-meta.outputs.actor }}
         steps:
             - name: Checkout Code
               uses: actions/checkout@v4
@@ -83,4 +84,7 @@ jobs:
         with:
             image: ${{ needs.build-and-push-image.outputs.image_path }}
             digest: ${{ needs.build-and-push-image.outputs.digest }}
+            registry-username: ${{ needs.build-and-push-image.outputs.registry_username }}
+        secrets:
+            registry-password: ${{ secrets.GITHUB_TOKEN }}
 ...
