@@ -35,7 +35,7 @@ jobs:
             - name: Set Image Metadata
               id: meta
               run: |
-                  IMAGE_PATH="${{ env.REGISTRY }}/${{ github.actor }}/${{ env.IMAGE_NAME }}"
+                  IMAGE_PATH="${{ env.REGISTRY }}/${{ github.actor | lower }}/${{ env.IMAGE_NAME }}"
                   TAGS="${IMAGE_PATH}:${{ github.ref_name }},${IMAGE_PATH}:latest"
                   echo "IMAGE_PATH=${IMAGE_PATH}" >> $GITHUB_OUTPUT
                   echo "TAGS=${TAGS}" >> $GITHUB_OUTPUT
