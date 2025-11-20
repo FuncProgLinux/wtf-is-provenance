@@ -14,3 +14,8 @@ Utiliza el `Makefile` del repositorio para interactuar con el mismo:
 - `make run`: Para ejecutar `main.go` y probarlo
 - `make image`: Para construir la imagen de Docker
 - `make env`: Para crear una `guix shell` con `slsa-verifier` instalado.
+
+## Uso con Guix
+
+Puedes usar todo el stack de software, incluido el programa `slsa-verifier`
+invocando una nueva shell con `make env` o manualmente con `guix shell -m ./manifest.scm`
