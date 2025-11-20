@@ -61,5 +61,4 @@ jobs:
         with:
             image: ${{ needs.build-image.outputs.image_path }}
             digest: ${{ needs.build-image.outputs.digest }}
-            tag: ${{ github.ref_name }}
 ...
