@@ -16,4 +16,43 @@ jobs:
         uses: slsa-framework/slsa-github-generator/.github/workflows/builder_go_slsa3.yml@v2.1.0
         with:
             go-version: 1.25
+
+    attest-release:
+        name: Publish release attestations
+        runs-on: ubuntu-latest
+        needs: build
+        permissions:
+            contents: read
+            id-token: write
+            attestations: write
+        env:
+            GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Download release assets
+              id: download-release
+              run: |
+                  set -euo pipefail
+                  mkdir -p dist
+                  if ! gh release view "${{ github.ref_name }}" >/dev/null 2>&1; then
+                      echo "skip=true" >> "$GITHUB_OUTPUT"
+                      echo "No GitHub release found for tag ${{ github.ref_name }}, so there's nothing for this attestation parade."
+                      exit 0
+                  fi
+                  gh release download "${{ github.ref_name }}" --dir dist --clobber
+                  if [ -z "$(ls -A dist)" ]; then
+                      echo "skip=true" >> "$GITHUB_OUTPUT"
+                      echo "Release exists but contains no assets to attest—classic."
+                  else
+                      echo "skip=false" >> "$GITHUB_OUTPUT"
+                      ls -al dist
+                  fi
+
+            - name: Create release attestations
+              if: steps.download-release.outputs.skip != 'true'
+              uses: actions/attest-build-provenance@v1
+              with:
+                  subject-path: "dist/**"
 ...

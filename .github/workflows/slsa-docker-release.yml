@@ -10,6 +10,7 @@ permissions:
     id-token: write
     packages: write
     actions: read
+    attestations: write
 
 env:
     IMAGE_NAME: tinyapi
@@ -71,6 +72,16 @@ jobs:
                       ${{ steps.image-meta.outputs.release_tag }}
                       ${{ steps.image-meta.outputs.latest_tag }}
                   registry: ${{ env.REGISTRY }}
+
+            - name: Create GitHub attestation
+              uses: actions/attest-build-provenance@v1
+              with:
+                  subject-name: ${{ steps.image-meta.outputs.image_path }}
+                  subject-digest: ${{ steps.push-to-ghcr.outputs.digest }}
+
+            - name: Print image url
+              run: |
+                  echo "Image pushed to ${{ steps.push-to-ghcr.outputs.registry-paths }}"
 
     attest-image:
         needs: [build-and-push-image]
