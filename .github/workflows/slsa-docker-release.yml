@@ -9,6 +9,7 @@ permissions:
     contents: read
     id-token: write
     packages: write
+    actions: read
 
 env:
     IMAGE_NAME: tinyapi
@@ -53,6 +54,8 @@ jobs:
         permissions:
             contents: write
             id-token: write
+            actions: read
+            packages: write
 
         uses: slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@v2.1.0
         with:
